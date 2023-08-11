@@ -1,7 +1,11 @@
 import Providers from '@/components/atoms/layouts/Providers';
 import './globals.css';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>

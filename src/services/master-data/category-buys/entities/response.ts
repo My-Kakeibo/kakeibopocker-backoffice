@@ -4,6 +4,7 @@ export type TCategoryBuyResponse = {
   id: number;
 };
 
-export type TCategoryBuyPaginateResponse = TPaginateResponse<TCategoryBuyResponse>;
+export type TCategoryBuyPaginateResponse =
+  TPaginateResponse<TCategoryBuyResponse>;
 
 export type TCategoryBuyDetailResponse = TResponseData<TCategoryBuyResponse>;

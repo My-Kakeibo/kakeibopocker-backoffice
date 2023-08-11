@@ -4,7 +4,10 @@ export type TResponseData<Response> = {
   data: Response;
 };
 
-export type TPaginateResponse<Response> = Omit<TResponseData<Response>, 'data'> & {
+export type TPaginateResponse<Response> = Omit<
+  TResponseData<Response>,
+  'data'
+> & {
   meta: {
     currentPage: number;
     lastPage: number;

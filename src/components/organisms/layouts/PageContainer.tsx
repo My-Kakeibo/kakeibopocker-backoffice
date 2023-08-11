@@ -15,14 +15,28 @@ export default function PageContainer(props: PageContainerProps) {
 
   const breadcrumbItems =
     breadcrumbs?.map((item) => ({
-      title: item.href ? <Link href={item.href || '#'}>{item.title}</Link> : item.title,
+      title: item.href ? (
+        <Link href={item.href || '#'}>{item.title}</Link>
+      ) : (
+        item.title
+      ),
     })) || [];
 
   return (
-    <div className="container" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+    <div
+      className="container"
+      style={{ paddingTop: '2rem', paddingBottom: '2rem' }}
+    >
       {breadcrumbs?.length ? <Breadcrumb items={breadcrumbItems} /> : null}
 
-      <Space style={{ marginBottom: '.5rem', width: '100%', justifyContent: 'space-between' }} align="center">
+      <Space
+        style={{
+          marginBottom: '.5rem',
+          width: '100%',
+          justifyContent: 'space-between',
+        }}
+        align="center"
+      >
         <Typography.Title level={2} style={{ marginTop: '.5rem' }}>
           {title}
         </Typography.Title>

@@ -10,7 +10,10 @@ export default function CategoryBuyBackoffice() {
   return (
     <PageContainer
       title="Category Buys"
-      breadcrumbs={[{ title: 'Dashboard', href: '/backoffice' }, { title: 'Category Buys' }]}
+      breadcrumbs={[
+        { title: 'Dashboard', href: '/backoffice' },
+        { title: 'Category Buys' },
+      ]}
       extra={
         <Space>
           <Button type="primary">Add Item</Button>
