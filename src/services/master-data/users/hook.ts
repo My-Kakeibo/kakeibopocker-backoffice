@@ -1,10 +1,26 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { createUser, deleteUser, getUserDetails, getUsers, updateUser } from './api';
+import {
+  createUser,
+  deleteUser,
+  getUserDetails,
+  getUsers,
+  updateUser,
+} from './api';
 import { TUserParams, TUserPayload } from './entities/request';
-import { TUserDetailResponse, TUserPaginateResponse, TUserResponse } from './entities/response';
-import { TGetDetailHookParams, TGetListHookParams, TUpdateHookParams } from '@/utils/entities/request';
+import {
+  TUserDetailResponse,
+  TUserPaginateResponse,
+  TUserResponse,
+} from './entities/response';
+import {
+  TGetDetailHookParams,
+  TGetListHookParams,
+  TUpdateParams,
+} from '@/utils/entities/request';
 
-export const useGetUsers = (value: TGetListHookParams<TUserParams, TUserPaginateResponse>) => {
+export const useGetUsers = (
+  value: TGetListHookParams<TUserParams, TUserPaginateResponse>,
+) => {
   return useQuery({
     queryKey: ['get-masterdata-users', value.params],
     queryFn: () => getUsers(value.params || {}),
@@ -12,7 +28,9 @@ export const useGetUsers = (value: TGetListHookParams<TUserParams, TUserPaginate
   });
 };
 
-export const useGetUserDetails = (value: TGetDetailHookParams<TUserResponse['id'], TUserDetailResponse>) => {
+export const useGetUserDetails = (
+  value: TGetDetailHookParams<TUserResponse['id'], TUserDetailResponse>,
+) => {
   return useQuery({
     queryKey: ['get-masterdata-user-details', value.id],
     queryFn: () => getUserDetails(value.id),
@@ -25,7 +43,9 @@ export const useCreateUser = () => {
   return useMutation(createUser);
 };
 
-export const useUpdateUser = (value: TUpdateHookParams<TUserResponse['id'], TUserPayload>) => {
+export const useUpdateUser = (
+  value: TUpdateParams<TUserResponse['id'], TUserPayload>,
+) => {
   return useMutation(() => updateUser(value.id, value.payload));
 };
 

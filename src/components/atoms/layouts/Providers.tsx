@@ -37,7 +37,7 @@ export default function Providers(props: ProvidersProps) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            regetOnWindowFocus: false,
+            refetchOnWindowFocus: false,
             keepPreviousData: true,
           },
         },

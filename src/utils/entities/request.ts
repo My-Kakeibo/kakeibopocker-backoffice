@@ -11,7 +11,7 @@ export type TGetDetailHookParams<Id, Response> = {
   options?: UseQueryOptions<Response, TResponseError>;
 };
 
-export type TUpdateHookParams<Id, Payload> = {
+export type TUpdateParams<Id, Payload> = {
   id: Id;
   payload: Payload;
 };

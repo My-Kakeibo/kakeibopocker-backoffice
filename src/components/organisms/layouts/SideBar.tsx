@@ -1,4 +1,8 @@
-import { DashboardOutlined, UsergroupAddOutlined, ShoppingOutlined } from '@ant-design/icons';
+import {
+  DashboardOutlined,
+  UsergroupAddOutlined,
+  ShoppingOutlined,
+} from '@ant-design/icons';
 import { Layout, Menu, Typography } from 'antd';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -61,6 +65,15 @@ const mockdata: MenuItem[] = [
     icon: <DashboardOutlined />,
     href: '/backoffice',
   },
-  { icon: <ShoppingOutlined />, label: 'Category Buys', href: '/backoffice/category-buys' },
+  {
+    icon: <ShoppingOutlined />,
+    label: 'Category Spends',
+    href: '/backoffice/category-spends',
+  },
+  {
+    icon: <ShoppingOutlined />,
+    label: 'Category Buys',
+    href: '/backoffice/category-buys',
+  },
   { icon: <UsergroupAddOutlined />, label: 'Users', href: '/backoffice/users' },
 ];
