@@ -1,11 +1,9 @@
-import { DashboardOutlined, CalendarOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { DashboardOutlined, UsergroupAddOutlined, ShoppingOutlined } from '@ant-design/icons';
 import { Layout, Menu, Typography } from 'antd';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-type SideBarProps = object;
-
-export const SideBar: React.FC<SideBarProps> = () => {
+export default function SideBar() {
   const pathname = usePathname();
 
   const getActivedKey = () => {
@@ -36,7 +34,7 @@ export const SideBar: React.FC<SideBarProps> = () => {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={[getActivedKey()]}
+            selectedKeys={[getActivedKey()]}
             items={mockdata.map((item, index) => {
               return {
                 key: index + 1,
@@ -49,7 +47,7 @@ export const SideBar: React.FC<SideBarProps> = () => {
       </Layout.Sider>
     </>
   );
-};
+}
 
 type MenuItem = {
   label: string;
@@ -63,6 +61,6 @@ const mockdata: MenuItem[] = [
     icon: <DashboardOutlined />,
     href: '/backoffice',
   },
-  { icon: <CalendarOutlined />, label: 'Calendar', href: '/backoffice/calendar' },
+  { icon: <ShoppingOutlined />, label: 'Category Buys', href: '/backoffice/category-buys' },
   { icon: <UsergroupAddOutlined />, label: 'Users', href: '/backoffice/users' },
 ];

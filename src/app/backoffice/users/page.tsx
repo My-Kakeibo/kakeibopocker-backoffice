@@ -1,8 +1,6 @@
-'use client';
-
 import { Button } from 'antd';
 
-export default function Backoffice() {
+export default function Users() {
   return (
     <>
       <p>Backoffice</p>

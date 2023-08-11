@@ -1,16 +1,11 @@
-'use client';
-
+import Providers from '@/components/atoms/layouts/Providers';
 import './globals.css';
-import { ConfigLayout } from '@/components';
-import { RecoilRoot } from 'recoil';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>
-        <RecoilRoot>
-          <ConfigLayout>{children}</ConfigLayout>
-        </RecoilRoot>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
