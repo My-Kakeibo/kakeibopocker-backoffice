@@ -1,5 +1,6 @@
 import Axios, { AxiosError, AxiosResponse } from 'axios';
 import { camelizeKeys, decamelizeKeys } from 'humps';
+import { getSession, signOut } from 'next-auth/react';
 
 const axios = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -17,6 +18,10 @@ axios.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
+    if (error.response?.status === 401) {
+      signOut();
+    }
+
     if (
       error.response?.data &&
       error.response?.headers['content-type'] ===
@@ -31,6 +36,11 @@ axios.interceptors.response.use(
 
 axios.interceptors.request.use(async (config) => {
   const newConfig = { ...config };
+
+  const session = await getSession();
+  if (session?.accessToken) {
+    newConfig.headers.Authorization = `Bearer ${session.accessToken}`;
+  }
 
   if (newConfig.headers['Content-Type'] === 'multipart/form-data')
     return newConfig;

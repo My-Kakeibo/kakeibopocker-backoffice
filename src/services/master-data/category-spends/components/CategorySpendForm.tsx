@@ -1,11 +1,18 @@
 import { Form, FormProps, Input } from 'antd';
 import { TCategorySpendPayload } from '../entities/request';
-import { TCategorySpendResponse } from '../entities/response';
+import {
+  TCategorySpendPaginateResponse,
+  TCategorySpendResponse,
+} from '../entities/response';
 import {
   useCreateCategorySpend,
   useDeleteCategorySpend,
   useUpdateCategorySpend,
 } from '../hook';
+import { TResponseError } from '@/utils/entities/response';
+import { UseQueryResult } from '@tanstack/react-query';
+import { failedMessage, successMessage } from '@/utils/antd/message';
+import { requiredRule } from '@/utils/antd/rulesMessage';
 
 type FormManagementProps = FormProps<TCategorySpendPayload>;
 
@@ -14,7 +21,7 @@ export default function CategorySpendForm(props: FormManagementProps) {
 
   return (
     <Form layout="vertical" {...rest}>
-      <Form.Item label="Name" name="name">
+      <Form.Item label="Name" name="name" rules={[requiredRule]}>
         <Input placeholder="Name..." />
       </Form.Item>
       <Form.Item label="Description" name="description">
@@ -24,7 +31,9 @@ export default function CategorySpendForm(props: FormManagementProps) {
   );
 }
 
-export const useCategorySpendForm = () => {
+export const useCategorySpendForm = (
+  dataHook: UseQueryResult<TCategorySpendPaginateResponse, TResponseError>,
+) => {
   const [form] = Form.useForm<TCategorySpendPayload>();
 
   const setFields = (record: TCategorySpendResponse) => {
@@ -36,20 +45,47 @@ export const useCategorySpendForm = () => {
 
   const createMutation = useCreateCategorySpend();
   const onCreate = () => {
-    createMutation.mutate(form.getFieldsValue());
+    createMutation.mutate(form.getFieldsValue(), {
+      onSuccess: () => {
+        successMessage();
+        dataHook.refetch();
+      },
+      onError: () => {
+        failedMessage();
+      },
+    });
   };
 
   const updateMutation = useUpdateCategorySpend();
   const onUpdate = (id: TCategorySpendResponse['id']) => {
-    updateMutation.mutate({
-      id,
-      payload: form.getFieldsValue(),
-    });
+    updateMutation.mutate(
+      {
+        id,
+        payload: form.getFieldsValue(),
+      },
+      {
+        onSuccess: () => {
+          successMessage();
+          dataHook.refetch();
+        },
+        onError: () => {
+          failedMessage();
+        },
+      },
+    );
   };
 
   const deleteMutation = useDeleteCategorySpend();
   const onDelete = (id: TCategorySpendResponse['id']) => {
-    deleteMutation.mutate(id);
+    deleteMutation.mutate(id, {
+      onSuccess: () => {
+        successMessage();
+        dataHook.refetch();
+      },
+      onError: () => {
+        failedMessage();
+      },
+    });
   };
 
   return {

@@ -4,7 +4,7 @@ import NavBar from '@/components/organisms/layouts/NavBar';
 import SideBar from '@/components/organisms/layouts/SideBar';
 import { Layout } from 'antd';
 
-export default function RootLayout({
+export default function BackofficeLayout({
   children,
 }: {
   children: React.ReactNode;

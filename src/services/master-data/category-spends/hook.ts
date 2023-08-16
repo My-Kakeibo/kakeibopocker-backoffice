@@ -26,7 +26,7 @@ export const useGetCategorySpends = (
   >,
 ) => {
   return useQuery({
-    queryKey: [MASTERDATA_CATEGORY_SPENDS_HOOKS.getAll],
+    queryKey: [MASTERDATA_CATEGORY_SPENDS_HOOKS.getAll, value.params],
     queryFn: () => getCategorySpends(value.params),
     ...value.options,
   });

@@ -1,16 +1,19 @@
+import { UseMutationResult } from '@tanstack/react-query';
 import { Button, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-type AsyncModalProps = {
+type AsyncModalProps<TRS, TRE, TP> = {
   button: React.ReactNode;
   title: string;
   onSubmit: () => void;
   children: React.ReactNode;
-  isLoading: boolean;
+  mutation: UseMutationResult<TRS, TRE, TP>;
 };
 
-export default function AsyncModal(props: AsyncModalProps) {
-  const { title, isLoading, button, children, onSubmit } = props;
+export default function AsyncModal<TRS, TRE, TP>(
+  props: AsyncModalProps<TRS, TRE, TP>,
+) {
+  const { title, button, children, mutation, onSubmit } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,10 +26,10 @@ export default function AsyncModal(props: AsyncModalProps) {
   };
 
   useEffect(() => {
-    if (!isLoading) {
+    if (mutation.isSuccess) {
       handleCancel();
     }
-  }, [isLoading]);
+  }, [mutation.isSuccess]);
 
   return (
     <>
@@ -45,7 +48,7 @@ export default function AsyncModal(props: AsyncModalProps) {
             key="submit"
             type="primary"
             htmlType="submit"
-            loading={isLoading}
+            loading={mutation.isLoading}
             onClick={handleOk}
           >
             Submit

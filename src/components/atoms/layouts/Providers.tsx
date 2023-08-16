@@ -2,15 +2,18 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider, ThemeConfig } from 'antd';
+import { Session } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
 import { useState } from 'react';
 import { RecoilRoot } from 'recoil';
 
 type ProvidersProps = {
   children: React.ReactNode;
+  session: Session | null;
 };
 
 export default function Providers(props: ProvidersProps) {
-  const { children } = props;
+  const { children, session } = props;
 
   /**
    * Ant Design Theme COnfiguration
@@ -46,11 +49,13 @@ export default function Providers(props: ProvidersProps) {
 
   return (
     <>
-      <RecoilRoot>
-        <QueryClientProvider client={queryClient}>
-          <ConfigProvider theme={theme}>{children}</ConfigProvider>
-        </QueryClientProvider>
-      </RecoilRoot>
+      <SessionProvider session={session}>
+        <RecoilRoot>
+          <QueryClientProvider client={queryClient}>
+            <ConfigProvider theme={theme}>{children}</ConfigProvider>
+          </QueryClientProvider>
+        </RecoilRoot>
+      </SessionProvider>
     </>
   );
 }

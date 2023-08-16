@@ -4,13 +4,21 @@ import PageContainer from '@/components/organisms/layouts/PageContainer';
 import AsyncModal from '@/components/organisms/modals/AsyncModal';
 import { TCategorySpendResponse } from '@/services/master-data/category-spends/entities/response';
 import { useGetCategorySpends } from '@/services/master-data/category-spends/hook';
-import { getnumberColumn } from '@/utils/table';
+import { getnumberColumn } from '@/utils/antd/table';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Space, Table } from 'antd';
 import CategorySpendForm, { useCategorySpendForm } from './CategorySpendForm';
+import { useGlobalFilter } from '@/utils/hooks/useFilter';
+import { TCategorySpendParams } from '../entities/request';
 
 export default function CategorySpendBackoffice() {
-  const dataHook = useGetCategorySpends({});
+  const filterHook = useGlobalFilter<
+    TCategorySpendParams,
+    TCategorySpendResponse
+  >();
+  const dataHook = useGetCategorySpends({
+    params: filterHook.params,
+  });
 
   const {
     form,
@@ -21,7 +29,7 @@ export default function CategorySpendBackoffice() {
     onUpdate,
     deleteMutation,
     onDelete,
-  } = useCategorySpendForm();
+  } = useCategorySpendForm(dataHook);
 
   return (
     <PageContainer
@@ -43,10 +51,10 @@ export default function CategorySpendBackoffice() {
                 Add Item
               </Button>
             }
-            isLoading={createMutation.isLoading}
-            onSubmit={onCreate}
+            mutation={createMutation}
+            onSubmit={form.submit}
           >
-            <CategorySpendForm form={form} />
+            <CategorySpendForm form={form} onFinish={onCreate} />
           </AsyncModal>
         </Space>
       }
@@ -75,10 +83,13 @@ export default function CategorySpendBackoffice() {
                       onClick={() => setFields(record)}
                     />
                   }
-                  isLoading={updateMutation.isLoading}
-                  onSubmit={() => onUpdate(record.id)}
+                  mutation={updateMutation}
+                  onSubmit={form.submit}
                 >
-                  <CategorySpendForm form={form} />
+                  <CategorySpendForm
+                    form={form}
+                    onFinish={() => onUpdate(record.id)}
+                  />
                 </AsyncModal>
 
                 <Button
@@ -96,7 +107,7 @@ export default function CategorySpendBackoffice() {
         rowKey={(record) => record.id}
         loading={dataHook.isFetching}
         pagination={dataHook.data?.meta}
-        onChange={() => {}}
+        onChange={filterHook.pagination.onChange}
       />
     </PageContainer>
   );

@@ -16,12 +16,10 @@ export type TUpdateParams<Id, Payload> = {
   payload: Payload;
 };
 
-export type TDefaultParams = {
-  search?: string;
-};
+export type TDefaultParams<T> = TPaginateParams & TSortParams<T>;
 
-export type TSortParams = {
-  orderBy?: string;
+export type TSortParams<T> = {
+  orderBy?: keyof T | string;
   orderType?: 'asc' | 'desc';
 };
 
