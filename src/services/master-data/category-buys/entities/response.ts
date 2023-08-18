@@ -1,7 +1,9 @@
 import { TPaginateResponse, TResponseData } from '@/utils/entities/response';
 
 export type TCategoryBuyResponse = {
-  id: number;
+  id: string;
+  name: string;
+  description: string;
 };
 
 export type TCategoryBuyPaginateResponse =

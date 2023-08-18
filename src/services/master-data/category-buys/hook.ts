@@ -6,7 +6,7 @@ import {
   updateCategoryBuy,
 } from './api';
 import { MASTERDATA_CATEGORY_BUYS_HOOKS } from './constant';
-import { TCategoryBuyParams, TCategoryBuyPayload } from './entities/request';
+import { TCategoryBuyParams } from './entities/request';
 import {
   TCategoryBuyDetailResponse,
   TCategoryBuyPaginateResponse,
@@ -15,7 +15,6 @@ import {
 import {
   TGetDetailHookParams,
   TGetListHookParams,
-  TUpdateParams,
 } from '@/utils/entities/request';
 import getQueryClient from '@/utils/getQueryClient';
 import { dehydrate, useMutation, useQuery } from '@tanstack/react-query';
@@ -24,7 +23,7 @@ export const useGetCategoryBuys = (
   value: TGetListHookParams<TCategoryBuyParams, TCategoryBuyPaginateResponse>,
 ) => {
   return useQuery({
-    queryKey: [MASTERDATA_CATEGORY_BUYS_HOOKS.getAll],
+    queryKey: [MASTERDATA_CATEGORY_BUYS_HOOKS.getAll, value.params],
     queryFn: () => getCategoryBuys(value.params),
     ...value.options,
   });
@@ -32,8 +31,9 @@ export const useGetCategoryBuys = (
 
 export const hydrateGetCategoryBuys = async (params?: TCategoryBuyParams) => {
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery([MASTERDATA_CATEGORY_BUYS_HOOKS.getAll], () =>
-    getCategoryBuys(params),
+  await queryClient.prefetchQuery(
+    [MASTERDATA_CATEGORY_BUYS_HOOKS.getAll, params],
+    () => getCategoryBuys(params),
   );
   const dehydratedState = dehydrate(queryClient);
 
@@ -61,7 +61,7 @@ export const hydrateGetCategoryBuyDetails = async (
 ) => {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(
-    [MASTERDATA_CATEGORY_BUYS_HOOKS.getDetail],
+    [MASTERDATA_CATEGORY_BUYS_HOOKS.getDetail, id],
     () => getCategoryBuyDetails(id),
   );
   const dehydratedState = dehydrate(queryClient);
@@ -75,12 +75,10 @@ export const useCreateCategoryBuy = () => {
   return useMutation(createCategoryBuy);
 };
 
-export const useUpdateCategoryBuy = (
-  value: TUpdateParams<TCategoryBuyResponse['id'], TCategoryBuyPayload>,
-) => {
-  return useMutation(() => updateCategoryBuy(value.id, value.payload));
+export const useUpdateCategoryBuy = () => {
+  return useMutation(updateCategoryBuy);
 };
 
-export const useDeleteCategoryBuy = (id: TCategoryBuyResponse['id']) => {
-  return useMutation(() => deleteCategoryBuy(id));
+export const useDeleteCategoryBuy = () => {
+  return useMutation(deleteCategoryBuy);
 };

@@ -6,6 +6,7 @@ import {
   TCategoryBuyPaginateResponse,
   TCategoryBuyResponse,
 } from './entities/response';
+import { TUpdateParams } from '@/utils/entities/request';
 
 export const getCategoryBuys = async (params?: TCategoryBuyParams) => {
   const result = await axios.get<TCategoryBuyPaginateResponse>(
@@ -31,12 +32,11 @@ export const createCategoryBuy = async (payload: TCategoryBuyPayload) => {
 };
 
 export const updateCategoryBuy = async (
-  id: TCategoryBuyResponse['id'],
-  payload: TCategoryBuyPayload,
+  params: TUpdateParams<TCategoryBuyResponse['id'], TCategoryBuyPayload>,
 ) => {
   const result = await axios.patch<TCategoryBuyDetailResponse>(
-    `${MASTERDATA_CATEGORY_BUYS_ENDPOINT}/${id}`,
-    payload,
+    `${MASTERDATA_CATEGORY_BUYS_ENDPOINT}/${params.id}`,
+    params.payload,
   );
   return result.data;
 };

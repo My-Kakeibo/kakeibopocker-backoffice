@@ -1,49 +1,45 @@
 import { Form, FormProps, Input } from 'antd';
-import { TCategorySpendPayload } from '../entities/request';
-import {
-  TCategorySpendPaginateResponse,
-  TCategorySpendResponse,
-} from '../entities/response';
-import {
-  useCreateCategorySpend,
-  useDeleteCategorySpend,
-  useUpdateCategorySpend,
-} from '../hook';
+import { TUserPayload } from '../entities/request';
+import { TUserPaginateResponse, TUserResponse } from '../entities/response';
+import { useCreateUser, useDeleteUser, useUpdateUser } from '../hook';
 import { TResponseError } from '@/utils/entities/response';
 import { UseQueryResult } from '@tanstack/react-query';
 import { failedMessage, successMessage } from '@/utils/antd/message';
-import { requiredRule } from '@/utils/antd/rulesMessage';
+import { emailRule, requiredRule } from '@/utils/antd/rulesMessage';
 
-type FormManagementProps = FormProps<TCategorySpendPayload>;
+type FormManagementProps = FormProps<TUserPayload>;
 
-export default function CategorySpendForm(props: FormManagementProps) {
+export default function UserForm(props: FormManagementProps) {
   const { ...rest } = props;
 
   return (
     <Form layout="vertical" {...rest}>
-      <Form.Item label="Name" name="name" rules={[requiredRule]}>
-        <Input placeholder="Name..." />
+      <Form.Item label="Email" name="email" rules={[requiredRule, emailRule]}>
+        <Input placeholder="Email..." />
       </Form.Item>
-      <Form.Item label="Description" name="description" rules={[requiredRule]}>
-        <Input.TextArea placeholder="Name..." rows={5} />
+      <Form.Item label="Password" name="password" rules={[requiredRule]}>
+        <Input.Password placeholder="Passowrd..." />
+      </Form.Item>
+      <Form.Item label="Fullname" name="fullname" rules={[requiredRule]}>
+        <Input placeholder="Fullname..." />
       </Form.Item>
     </Form>
   );
 }
 
-export const useCategorySpendForm = (
-  dataHook: UseQueryResult<TCategorySpendPaginateResponse, TResponseError>,
+export const useUserForm = (
+  dataHook: UseQueryResult<TUserPaginateResponse, TResponseError>,
 ) => {
-  const [form] = Form.useForm<TCategorySpendPayload>();
+  const [form] = Form.useForm<TUserPayload>();
 
-  const setFields = (record: TCategorySpendResponse) => {
+  const setFields = (record: TUserResponse) => {
     form.setFieldsValue({
-      name: record.name,
-      description: record.description,
+      email: record.email,
+      fullname: record.fullname,
     });
   };
 
-  const createMutation = useCreateCategorySpend();
+  const createMutation = useCreateUser();
   const onCreate = () => {
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
@@ -56,8 +52,8 @@ export const useCategorySpendForm = (
     });
   };
 
-  const updateMutation = useUpdateCategorySpend();
-  const onUpdate = (id: TCategorySpendResponse['id']) => {
+  const updateMutation = useUpdateUser();
+  const onUpdate = (id: TUserResponse['id']) => {
     updateMutation.mutate(
       {
         id,
@@ -75,8 +71,8 @@ export const useCategorySpendForm = (
     );
   };
 
-  const deleteMutation = useDeleteCategorySpend();
-  const onDelete = (id: TCategorySpendResponse['id']) => {
+  const deleteMutation = useDeleteUser();
+  const onDelete = (id: TUserResponse['id']) => {
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();

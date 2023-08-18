@@ -6,6 +6,7 @@ import {
   TUserPaginateResponse,
   TUserResponse,
 } from './entities/response';
+import { TUpdateParams } from '@/utils/entities/request';
 
 export const getUsers = async (params: TUserParams) => {
   const result = await axios.get<TUserPaginateResponse>(
@@ -31,12 +32,11 @@ export const createUser = async (payload: TUserPayload) => {
 };
 
 export const updateUser = async (
-  id: TUserResponse['id'],
-  payload: TUserPayload,
+  params: TUpdateParams<TUserResponse['id'], TUserPayload>,
 ) => {
   const result = await axios.patch<TUserDetailResponse>(
-    `${MASTERDATA_USER_ENDPOINT}/${id}`,
-    payload,
+    `${MASTERDATA_USER_ENDPOINT}/${params.id}`,
+    params.payload,
   );
   return result.data;
 };

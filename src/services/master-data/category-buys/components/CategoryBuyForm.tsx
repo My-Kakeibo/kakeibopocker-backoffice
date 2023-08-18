@@ -1,22 +1,22 @@
 import { Form, FormProps, Input } from 'antd';
-import { TCategorySpendPayload } from '../entities/request';
+import { TCategoryBuyPayload } from '../entities/request';
 import {
-  TCategorySpendPaginateResponse,
-  TCategorySpendResponse,
+  TCategoryBuyPaginateResponse,
+  TCategoryBuyResponse,
 } from '../entities/response';
 import {
-  useCreateCategorySpend,
-  useDeleteCategorySpend,
-  useUpdateCategorySpend,
+  useCreateCategoryBuy,
+  useDeleteCategoryBuy,
+  useUpdateCategoryBuy,
 } from '../hook';
 import { TResponseError } from '@/utils/entities/response';
 import { UseQueryResult } from '@tanstack/react-query';
 import { failedMessage, successMessage } from '@/utils/antd/message';
 import { requiredRule } from '@/utils/antd/rulesMessage';
 
-type FormManagementProps = FormProps<TCategorySpendPayload>;
+type FormManagementProps = FormProps<TCategoryBuyPayload>;
 
-export default function CategorySpendForm(props: FormManagementProps) {
+export default function CategoryBuyForm(props: FormManagementProps) {
   const { ...rest } = props;
 
   return (
@@ -31,19 +31,19 @@ export default function CategorySpendForm(props: FormManagementProps) {
   );
 }
 
-export const useCategorySpendForm = (
-  dataHook: UseQueryResult<TCategorySpendPaginateResponse, TResponseError>,
+export const useCategoryBuyForm = (
+  dataHook: UseQueryResult<TCategoryBuyPaginateResponse, TResponseError>,
 ) => {
-  const [form] = Form.useForm<TCategorySpendPayload>();
+  const [form] = Form.useForm<TCategoryBuyPayload>();
 
-  const setFields = (record: TCategorySpendResponse) => {
+  const setFields = (record: TCategoryBuyResponse) => {
     form.setFieldsValue({
       name: record.name,
       description: record.description,
     });
   };
 
-  const createMutation = useCreateCategorySpend();
+  const createMutation = useCreateCategoryBuy();
   const onCreate = () => {
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
@@ -56,8 +56,8 @@ export const useCategorySpendForm = (
     });
   };
 
-  const updateMutation = useUpdateCategorySpend();
-  const onUpdate = (id: TCategorySpendResponse['id']) => {
+  const updateMutation = useUpdateCategoryBuy();
+  const onUpdate = (id: TCategoryBuyResponse['id']) => {
     updateMutation.mutate(
       {
         id,
@@ -75,8 +75,8 @@ export const useCategorySpendForm = (
     );
   };
 
-  const deleteMutation = useDeleteCategorySpend();
-  const onDelete = (id: TCategorySpendResponse['id']) => {
+  const deleteMutation = useDeleteCategoryBuy();
+  const onDelete = (id: TCategoryBuyResponse['id']) => {
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();

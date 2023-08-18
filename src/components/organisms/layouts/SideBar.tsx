@@ -32,7 +32,7 @@ export default function SideBar() {
               marginBottom: '.5rem',
             }}
           >
-            Pocket Kakeibo
+            Kakeibo Pocket
           </Typography.Title>
 
           <Menu

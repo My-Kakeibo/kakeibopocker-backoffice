@@ -37,7 +37,7 @@ export const hydrateGetCategorySpends = async (
 ) => {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(
-    [MASTERDATA_CATEGORY_SPENDS_HOOKS.getAll],
+    [MASTERDATA_CATEGORY_SPENDS_HOOKS.getAll, params],
     () => getCategorySpends(params),
   );
   const dehydratedState = dehydrate(queryClient);
@@ -66,7 +66,7 @@ export const hydrateGetCategorySpendDetails = async (
 ) => {
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(
-    [MASTERDATA_CATEGORY_SPENDS_HOOKS.getDetail],
+    [MASTERDATA_CATEGORY_SPENDS_HOOKS.getDetail, id],
     () => getCategorySpendDetails(id),
   );
   const dehydratedState = dehydrate(queryClient);
