@@ -15,7 +15,7 @@ export const getCategorySpends = async (params?: TCategorySpendParams) => {
   params = params || {};
   const result = await axios.get<TCategorySpendPaginateResponse>(
     `${MASTERDATA_CATEGORY_SPENDS_ENDPOINT}`,
-    { params },
+    { params: params || {} },
   );
   return result.data;
 };

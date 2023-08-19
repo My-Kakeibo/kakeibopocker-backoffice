@@ -1,3 +1,5 @@
+import { HttpStatusCode } from 'axios';
+
 export type TResponseData<Response> = {
   statusCode: 200;
   message: string;
@@ -19,11 +21,11 @@ export type TPaginateResponse<Response> = Omit<
   items: Response[];
 };
 
-export type TResponseError = {
-  statusCode: number;
+export type TResponseError<Response> = {
+  statusCode: HttpStatusCode;
   message: {
-    field: string;
-    error: string[];
+    field: keyof Response;
+    messages: string[];
   }[];
-  errors?: string;
+  error?: string;
 };

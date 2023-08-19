@@ -9,10 +9,11 @@ import {
   useDeleteCategoryBuy,
   useUpdateCategoryBuy,
 } from '../hook';
-import { TResponseError } from '@/utils/entities/response';
-import { UseQueryResult } from '@tanstack/react-query';
 import { failedMessage, successMessage } from '@/utils/antd/message';
 import { requiredRule } from '@/utils/antd/rulesMessage';
+import { TExpectQueryResult } from '@/utils/entities/hook';
+import { setErrorForm } from '@/utils/antd/form';
+import SelectCategorySpend from '@/components/atoms/inputs/SelectCategorySpend';
 
 type FormManagementProps = FormProps<TCategoryBuyPayload>;
 
@@ -21,6 +22,13 @@ export default function CategoryBuyForm(props: FormManagementProps) {
 
   return (
     <Form layout="vertical" {...rest}>
+      <Form.Item
+        label="Category Spend"
+        name="categorySpendId"
+        rules={[requiredRule]}
+      >
+        <SelectCategorySpend />
+      </Form.Item>
       <Form.Item label="Name" name="name" rules={[requiredRule]}>
         <Input placeholder="Name..." />
       </Form.Item>
@@ -32,7 +40,7 @@ export default function CategoryBuyForm(props: FormManagementProps) {
 }
 
 export const useCategoryBuyForm = (
-  dataHook: UseQueryResult<TCategoryBuyPaginateResponse, TResponseError>,
+  dataHook: TExpectQueryResult<TCategoryBuyPaginateResponse>,
 ) => {
   const [form] = Form.useForm<TCategoryBuyPayload>();
 
@@ -40,6 +48,8 @@ export const useCategoryBuyForm = (
     form.setFieldsValue({
       name: record.name,
       description: record.description,
+      categorySpendId: record.categorySpend.id,
+      haveUserId: record.haveUser?.id,
     });
   };
 
@@ -50,8 +60,9 @@ export const useCategoryBuyForm = (
         successMessage();
         dataHook.refetch();
       },
-      onError: () => {
+      onError: (data) => {
         failedMessage();
+        setErrorForm(form, data.message);
       },
     });
   };
@@ -68,8 +79,9 @@ export const useCategoryBuyForm = (
           successMessage();
           dataHook.refetch();
         },
-        onError: () => {
+        onError: (data) => {
           failedMessage();
+          setErrorForm(form, data.message);
         },
       },
     );

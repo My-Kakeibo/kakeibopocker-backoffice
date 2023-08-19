@@ -1,3 +1,4 @@
+import { TExpectMutationResult } from '@/utils/entities/hook';
 import {
   createCategorySpend,
   deleteCategorySpend,
@@ -6,7 +7,10 @@ import {
   updateCategorySpend,
 } from './api';
 import { MASTERDATA_CATEGORY_SPENDS_HOOKS } from './constant';
-import { TCategorySpendParams } from './entities/request';
+import {
+  TCategorySpendParams,
+  TCategorySpendPayload,
+} from './entities/request';
 import {
   TCategorySpendDetailResponse,
   TCategorySpendPaginateResponse,
@@ -15,6 +19,7 @@ import {
 import {
   TGetDetailHookParams,
   TGetListHookParams,
+  TUpdateParams,
 } from '@/utils/entities/request';
 import getQueryClient from '@/utils/getQueryClient';
 import { dehydrate, useMutation, useQuery } from '@tanstack/react-query';
@@ -76,14 +81,23 @@ export const hydrateGetCategorySpendDetails = async (
   };
 };
 
-export const useCreateCategorySpend = () => {
+export const useCreateCategorySpend = (): TExpectMutationResult<
+  TCategorySpendDetailResponse,
+  TCategorySpendPayload
+> => {
   return useMutation(createCategorySpend);
 };
 
-export const useUpdateCategorySpend = () => {
+export const useUpdateCategorySpend = (): TExpectMutationResult<
+  TCategorySpendDetailResponse,
+  TUpdateParams<TCategorySpendResponse['id'], TCategorySpendPayload>
+> => {
   return useMutation(updateCategorySpend);
 };
 
-export const useDeleteCategorySpend = () => {
+export const useDeleteCategorySpend = (): TExpectMutationResult<
+  string,
+  TCategorySpendResponse['id']
+> => {
   return useMutation(deleteCategorySpend);
 };

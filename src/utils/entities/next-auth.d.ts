@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import NextAuth from 'next-auth';
 import { JWT } from 'next-auth/jwt';
-import { TAuthResponse } from './response';
+import { TAuthResponse } from '@/services/auth/entities/response';
 
 declare module 'next-auth/jwt' {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */

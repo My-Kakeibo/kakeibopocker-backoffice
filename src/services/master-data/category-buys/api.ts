@@ -11,7 +11,7 @@ import { TUpdateParams } from '@/utils/entities/request';
 export const getCategoryBuys = async (params?: TCategoryBuyParams) => {
   const result = await axios.get<TCategoryBuyPaginateResponse>(
     `${MASTERDATA_CATEGORY_BUYS_ENDPOINT}`,
-    { params },
+    { params: params || {} },
   );
   return result.data;
 };

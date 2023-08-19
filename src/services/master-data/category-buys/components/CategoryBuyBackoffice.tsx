@@ -6,7 +6,7 @@ import { TCategoryBuyResponse } from '@/services/master-data/category-buys/entit
 import { useGetCategoryBuys } from '@/services/master-data/category-buys/hook';
 import { getnumberColumn } from '@/utils/antd/table';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Space, Table } from 'antd';
+import { Button, Space, Table, Typography } from 'antd';
 import CategoryBuyForm, { useCategoryBuyForm } from './CategoryBuyForm';
 import { useGlobalFilter } from '@/utils/hooks/useFilter';
 import { TCategoryBuyParams } from '../entities/request';
@@ -65,6 +65,12 @@ export default function CategoryBuyBackoffice() {
           getnumberColumn<TCategoryBuyResponse>(),
           { title: 'Name', dataIndex: 'name' },
           { title: 'Description', dataIndex: 'description' },
+          {
+            title: 'Category Spend',
+            render: (_, record) => (
+              <Typography.Text>{record.categorySpend.name}</Typography.Text>
+            ),
+          },
           {
             title: 'Action',
             dataIndex: 'id',

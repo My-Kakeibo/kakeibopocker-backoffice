@@ -9,10 +9,10 @@ import {
   useDeleteCategorySpend,
   useUpdateCategorySpend,
 } from '../hook';
-import { TResponseError } from '@/utils/entities/response';
-import { UseQueryResult } from '@tanstack/react-query';
 import { failedMessage, successMessage } from '@/utils/antd/message';
 import { requiredRule } from '@/utils/antd/rulesMessage';
+import { TExpectQueryResult } from '@/utils/entities/hook';
+import { setErrorForm } from '@/utils/antd/form';
 
 type FormManagementProps = FormProps<TCategorySpendPayload>;
 
@@ -32,7 +32,7 @@ export default function CategorySpendForm(props: FormManagementProps) {
 }
 
 export const useCategorySpendForm = (
-  dataHook: UseQueryResult<TCategorySpendPaginateResponse, TResponseError>,
+  dataHook: TExpectQueryResult<TCategorySpendPaginateResponse>,
 ) => {
   const [form] = Form.useForm<TCategorySpendPayload>();
 
@@ -50,8 +50,9 @@ export const useCategorySpendForm = (
         successMessage();
         dataHook.refetch();
       },
-      onError: () => {
+      onError: (data) => {
         failedMessage();
+        setErrorForm(form, data.message);
       },
     });
   };
@@ -68,8 +69,9 @@ export const useCategorySpendForm = (
           successMessage();
           dataHook.refetch();
         },
-        onError: () => {
+        onError: (data) => {
           failedMessage();
+          setErrorForm(form, data.message);
         },
       },
     );

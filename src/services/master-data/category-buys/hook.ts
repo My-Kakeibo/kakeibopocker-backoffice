@@ -1,3 +1,4 @@
+import { TExpectMutationResult } from '@/utils/entities/hook';
 import {
   createCategoryBuy,
   deleteCategoryBuy,
@@ -6,7 +7,7 @@ import {
   updateCategoryBuy,
 } from './api';
 import { MASTERDATA_CATEGORY_BUYS_HOOKS } from './constant';
-import { TCategoryBuyParams } from './entities/request';
+import { TCategoryBuyParams, TCategoryBuyPayload } from './entities/request';
 import {
   TCategoryBuyDetailResponse,
   TCategoryBuyPaginateResponse,
@@ -15,6 +16,7 @@ import {
 import {
   TGetDetailHookParams,
   TGetListHookParams,
+  TUpdateParams,
 } from '@/utils/entities/request';
 import getQueryClient from '@/utils/getQueryClient';
 import { dehydrate, useMutation, useQuery } from '@tanstack/react-query';
@@ -71,14 +73,23 @@ export const hydrateGetCategoryBuyDetails = async (
   };
 };
 
-export const useCreateCategoryBuy = () => {
+export const useCreateCategoryBuy = (): TExpectMutationResult<
+  TCategoryBuyDetailResponse,
+  TCategoryBuyPayload
+> => {
   return useMutation(createCategoryBuy);
 };
 
-export const useUpdateCategoryBuy = () => {
+export const useUpdateCategoryBuy = (): TExpectMutationResult<
+  TCategoryBuyDetailResponse,
+  TUpdateParams<TCategoryBuyResponse['id'], TCategoryBuyPayload>
+> => {
   return useMutation(updateCategoryBuy);
 };
 
-export const useDeleteCategoryBuy = () => {
+export const useDeleteCategoryBuy = (): TExpectMutationResult<
+  string,
+  TCategoryBuyResponse['id']
+> => {
   return useMutation(deleteCategoryBuy);
 };

@@ -6,7 +6,7 @@ import {
   getUsers,
   updateUser,
 } from './api';
-import { TUserParams } from './entities/request';
+import { TUserParams, TUserPayload } from './entities/request';
 import {
   TUserDetailResponse,
   TUserPaginateResponse,
@@ -15,16 +15,18 @@ import {
 import {
   TGetDetailHookParams,
   TGetListHookParams,
+  TUpdateParams,
 } from '@/utils/entities/request';
 import { MASTERDATA_USER_HOOKS } from './constant';
 import getQueryClient from '@/utils/getQueryClient';
+import { TExpectMutationResult } from '@/utils/entities/hook';
 
 export const useGetUsers = (
   value: TGetListHookParams<TUserParams, TUserPaginateResponse>,
 ) => {
   return useQuery({
     queryKey: ['get-masterdata-users', value.params],
-    queryFn: () => getUsers(value.params || {}),
+    queryFn: () => getUsers(value.params),
     ...value.options,
   });
 };
@@ -64,14 +66,23 @@ export const hydrateGetUserDetails = async (id: TUserResponse['id']) => {
   };
 };
 
-export const useCreateUser = () => {
+export const useCreateUser = (): TExpectMutationResult<
+  TUserDetailResponse,
+  TUserPayload
+> => {
   return useMutation(createUser);
 };
 
-export const useUpdateUser = () => {
+export const useUpdateUser = (): TExpectMutationResult<
+  TUserDetailResponse,
+  TUpdateParams<TUserResponse['id'], TUserPayload>
+> => {
   return useMutation(updateUser);
 };
 
-export const useDeleteUser = () => {
+export const useDeleteUser = (): TExpectMutationResult<
+  string,
+  TUserResponse['id']
+> => {
   return useMutation(deleteUser);
 };

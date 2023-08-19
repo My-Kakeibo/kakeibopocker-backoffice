@@ -1,5 +1,5 @@
 import Axios, { AxiosError, AxiosResponse } from 'axios';
-import { camelizeKeys, decamelizeKeys } from 'humps';
+import { camelizeKeys } from 'humps';
 import { getSession, signOut } from 'next-auth/react';
 
 const axios = Axios.create({
@@ -42,16 +42,6 @@ axios.interceptors.request.use(async (config) => {
     newConfig.headers.Authorization = `Bearer ${session.accessToken}`;
   }
 
-  if (newConfig.headers['Content-Type'] === 'multipart/form-data')
-    return newConfig;
-
-  if (config.params) {
-    newConfig.params = decamelizeKeys(config.params);
-  }
-
-  if (config.data) {
-    newConfig.data = decamelizeKeys(config.data);
-  }
   return newConfig;
 });
 

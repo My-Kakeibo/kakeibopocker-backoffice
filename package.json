@@ -20,17 +20,17 @@
     "antd": "^5.8.2",
     "axios": "^1.4.0",
     "humps": "^2.0.1",
+    "lodash": "^4.17.21",
     "next": "13.4.12",
     "next-auth": "^4.22.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-responsive": "^9.0.2",
     "recoil": "^0.7.7",
-    "typescript": "5.1.6",
-    "yarn": "^1.22.19"
+    "typescript": "5.1.6"
   },
   "devDependencies": {
     "@types/humps": "^2.0.3",
+    "@types/lodash": "^4.14.197",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "autoprefixer": "^10.4.14",

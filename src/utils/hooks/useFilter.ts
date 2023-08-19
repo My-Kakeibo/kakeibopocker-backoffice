@@ -5,7 +5,7 @@ import { TPaginateParams, TSortParams } from '../entities/request';
 export const usePagination = () => {
   const [params, setParams] = useState<TPaginateParams>({
     page: 1,
-    perPage: 10,
+    perPage: 15,
   });
 
   const onChange = (pagination: TablePaginationConfig) => {
@@ -23,7 +23,7 @@ export const usePagination = () => {
 
 export const useSort = <T>() => {
   const [params, setParams] = useState<TSortParams<T>>({
-    orderBy: 'createdAt',
+    orderBy: 'updatedAt',
     orderType: 'desc',
   });
 

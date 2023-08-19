@@ -8,10 +8,10 @@ import {
 } from './entities/response';
 import { TUpdateParams } from '@/utils/entities/request';
 
-export const getUsers = async (params: TUserParams) => {
+export const getUsers = async (params?: TUserParams) => {
   const result = await axios.get<TUserPaginateResponse>(
     `${MASTERDATA_USER_ENDPOINT}`,
-    { params },
+    { params: params || {} },
   );
   return result.data;
 };

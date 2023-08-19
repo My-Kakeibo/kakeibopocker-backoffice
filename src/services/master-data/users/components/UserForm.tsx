@@ -2,10 +2,10 @@ import { Form, FormProps, Input } from 'antd';
 import { TUserPayload } from '../entities/request';
 import { TUserPaginateResponse, TUserResponse } from '../entities/response';
 import { useCreateUser, useDeleteUser, useUpdateUser } from '../hook';
-import { TResponseError } from '@/utils/entities/response';
-import { UseQueryResult } from '@tanstack/react-query';
 import { failedMessage, successMessage } from '@/utils/antd/message';
 import { emailRule, requiredRule } from '@/utils/antd/rulesMessage';
+import { TExpectQueryResult } from '@/utils/entities/hook';
+import { setErrorForm } from '@/utils/antd/form';
 
 type FormManagementProps = FormProps<TUserPayload>;
 
@@ -28,7 +28,7 @@ export default function UserForm(props: FormManagementProps) {
 }
 
 export const useUserForm = (
-  dataHook: UseQueryResult<TUserPaginateResponse, TResponseError>,
+  dataHook: TExpectQueryResult<TUserPaginateResponse>,
 ) => {
   const [form] = Form.useForm<TUserPayload>();
 
@@ -46,8 +46,9 @@ export const useUserForm = (
         successMessage();
         dataHook.refetch();
       },
-      onError: () => {
+      onError: (data) => {
         failedMessage();
+        setErrorForm(form, data.message);
       },
     });
   };
@@ -64,8 +65,9 @@ export const useUserForm = (
           successMessage();
           dataHook.refetch();
         },
-        onError: () => {
+        onError: (data) => {
           failedMessage();
+          setErrorForm(form, data.message);
         },
       },
     );
