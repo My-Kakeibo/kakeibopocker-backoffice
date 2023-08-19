@@ -4,7 +4,7 @@ type InitialStateProps = {
   openSideBar: boolean;
 };
 
-export const configureLayoutReducer = createSlice({
+export const configureLayout = createSlice({
   name: 'configureLayout',
 
   initialState: {
@@ -19,6 +19,6 @@ export const configureLayoutReducer = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleSidebar } = configureLayoutReducer.actions;
+export const { toggleSidebar } = configureLayout.actions;
 
-export default configureLayoutReducer.reducer;
+export default configureLayout.reducer;
