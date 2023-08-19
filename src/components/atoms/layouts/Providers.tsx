@@ -1,11 +1,12 @@
 'use client';
 
+import store from '@/utils/redux/store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider, ThemeConfig } from 'antd';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { useState } from 'react';
-import { RecoilRoot } from 'recoil';
+import { Provider } from 'react-redux';
 
 type ProvidersProps = {
   children: React.ReactNode;
@@ -50,11 +51,11 @@ export default function Providers(props: ProvidersProps) {
   return (
     <>
       <SessionProvider session={session}>
-        <RecoilRoot>
+        <Provider store={store}>
           <QueryClientProvider client={queryClient}>
             <ConfigProvider theme={theme}>{children}</ConfigProvider>
           </QueryClientProvider>
-        </RecoilRoot>
+        </Provider>
       </SessionProvider>
     </>
   );
