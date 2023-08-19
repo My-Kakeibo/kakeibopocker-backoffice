@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import categorySpendReducer from './features/categorySpendReducer';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import configureLayoutReducer from './features/configureLayoutReducer';
 
 const store = configureStore({
   reducer: {
-    categorySpend: categorySpendReducer,
+    configureLayout: configureLayoutReducer,
   },
 });
 
