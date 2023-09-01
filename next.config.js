@@ -2,7 +2,13 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
 module.exports = withSentryConfig(
-  module.exports,
+  {
+    sentry: {
+      disableServerWebpackPlugin: true,
+      disableClientWebpackPlugin: true,
+      hideSourceMaps: true,
+    },
+  },
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
